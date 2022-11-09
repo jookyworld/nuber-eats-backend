@@ -14,4 +14,8 @@ The Backend of Nuber Eats Clone
 
 
 ### graphql
-resolver, query
+* module : DB의 말그대로 메인 모듈
+* resolver : ``` @Resolver() ``` 로 쿼리문 날릴 클래스들이 위치
+* ``` @Query(return => entity) ```  : 쿼리문 실행(?)
+* ``` @ObjectType() ```  : DB 엔티티
+
