@@ -25,5 +25,3 @@ The Backend of Nuber Eats Clone
 #### 추가
 1. what is @Mutation()
 2. @ArgsType() vs @InputType() 
-
-
