@@ -2,7 +2,7 @@
 
 The Backend of Nuber Eats Clone
 
-
+</br>
 
 ## Settings
 
@@ -25,7 +25,7 @@ GraphQLModule.forRoot<ApolloDriverConfig>({
 }),
 ```
 
-
+</br></br>
 
 
 
@@ -55,25 +55,11 @@ Query : get
 
 Mutation : post, put, delete
 
-</br>
-
 [참고](https://velog.io/@do_dadu/GraphQL%EC%9D%80-%EC%99%84%EB%B2%BD%ED%95%A0%EA%B9%8C)
 
+</br></br>
 
-
-##### files
-
-* module : DB의 말그대로 메인 모듈
-* resolver : ``` @Resolver() ``` 로 쿼리문 날릴 클래스들이 위치
-* ``` @Query(return => entity) ```  : 쿼리문 실행(?)
-* ``` @ObjectType() ```  : DB 엔티티
-* ``` @ArgsType() ```  으로 dto객체(?) 생성 가능
-* validation 으로 dto 유효성 검사 가능
-  class-validation, class-transformer 설치 후 main.ts에 파이프라인 추가
-
-
-
-##### graphql 시작
+### graphql 시작
 
 1. 모듈 생성
 
@@ -95,11 +81,24 @@ export class 클래스명 {}
 export class 모듈명 {}
 ```
 
+</br></br>
+
+#### concept
+
+* resolver : ``` @Resolver() ``` 로 쿼리문 날릴 클래스들이 위치
+* ``` @Query(return => entity) ```  : 쿼리문 실행
+* ``` @ObjectType() ```  : DB 엔티티
+* ``` @ArgsType() ```  이나 ``` @InputType() ``` 으로 dto객체(?) 생성 가능
+
+graphql 요청시,
+
+InputType은 args 이름으로 하나의 객체로 보내고
+
+ArgsType은 객체의 각 Field를 따로 보내고, 
+
+* validation 으로 dto 유효성 검사 가능
+  class-validation, class-transformer 설치 후 main.ts에 파이프라인 추가
 
 
 
-
-#### 추가
-
-1. what is @Mutation()
-2. @ArgsType() vs @InputType() 
+</br>
