@@ -2,17 +2,29 @@
 
 The Backend of Nuber Eats Clone
 
-</br>
+## Environment
+
+Framework : NestJS
+
+Backend : NestJS, typescript, node.js
+
+Database : TypeORM, PostgreSQL
 
 ## Settings
 
-##### 1. Nest Application 생성
+[Nest](https://docs.nestjs.com/)
 
-``` $ nest generate application ```
+#### 1. Nest Application 생성
 
-##### 2. graphql 설치
+```zsh
+$ nest generate application
+```
 
-1. ``` $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express ```
+#### 2. graphql 설치
+
+1. ```zsh
+   $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+   ```
 
 2. src/(controller, controller.spec, service) 삭제 => app.module의 해당 import도 삭제
 
@@ -25,13 +37,74 @@ GraphQLModule.forRoot<ApolloDriverConfig>({
 }),
 ```
 
+#### 3. PostgreSQL 설치[MAC]
+
+서버 : [postgresapp](https://postgresapp.com/downloads.html)
+
+GUI : [postico](https://eggerapps.at/postico2/)
+
+1. postico GUI에서 데이터베이스 생성
+
+2. postgresapp에서 생성한 DB 접속
+
+3. ``` postgresql
+   # \du;
+   ```
+
+   로 유저명 확인 후
+
+   ``` postgresql
+   # ALTER USER 유저명 WITH PASSWORD '비밀번호';
+   ```
+
+   로 비밀번호 설정
+
+#### 4. TypeORM 설치
+
+[TypeORM](https://typeorm.io/)
+
+1. ```zsh
+   $ npm install --save @nestjs/typeorm typeorm pg
+   ```
+
+2. app.module 임포트 후 
+
+   ```typescript
+   import { TypeOrmModule } from '@nestjs/typeorm';
+   ```
+
+   imports에 아래 코드 추가
+
+   ```typescript
+   TypeOrmModule.forRoot({
+     type: "postgres",
+     host: "localhost",
+     port: 5432,
+     username: "jookwonyoung",
+     password: "12345",  //PostgreSQL은 localhost에서 pass 필요 없음
+     database: "nuber-eats",
+     synchronize: true,
+     logging: true,
+   }),
+   ```
+
+3. ```zsh
+   $ npm run start:dev
+   ```
+
+   로 연결 했을 때 에러 없으면 DB 연결 완료
+
+
+
+
+
+
+
 </br></br>
 
+## Graphql
 
-
-## graphql
-
-#### graphql 이란? 
+#### Graphql 이란? 
 
 메타에서 만든 쿼리 언어.
 
@@ -63,7 +136,9 @@ Mutation : post, put, delete
 
 1. 모듈 생성
 
-``` $ nest generate module 모듈명 ```
+```zsh
+$ nest generate module 모듈명
+```
 
 2. resolver 클래스 생성
 
@@ -106,3 +181,32 @@ export class 모듈명 {}
 
 
 </br>
+
+## TypeORM
+
+설치 후 추가 설정
+
+1. dotenv 설치
+
+   ```zsh
+   $ npm i --save @nestjs/config
+   ```
+
+2. 루트 디렉토리에 .env.dev와 .env.test 파일 생성 (두 파일 모두 gitignore 추가)
+
+3. package.json 파일 수정
+
+   ```json
+   "start:dev": "cross-env ENV=dev nest start --watch",
+   ```
+
+4. app.module에 모듈 추가
+
+   ```typescript
+   ConfigModule.forRoot({
+         isGlobal: true,
+         envFilePath: process.env.NODE_ENV ==='dev' ? '.dev.env' : '.test.env',
+       }),
+   ```
+
+5. 
