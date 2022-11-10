@@ -31,11 +31,9 @@ GraphQLModule.forRoot<ApolloDriverConfig>({
 
 ## graphql
 
-##### graphql 이란? 
+#### graphql 이란? 
 
 메타에서 만든 쿼리 언어.
-
-
 
 sql이 DB 데이터를 효과적으로 가져올 수 있다면,
 
@@ -49,7 +47,7 @@ graphql은 REST API를 대체한다.
 
 </br>
 
-##### CRUD
+#### CRUD
 
 REST API와 달리 2가지를 사용하고 역할은 다음과 같다.
 
@@ -59,7 +57,7 @@ Mutation : post, put, delete
 
 </br>
 
-[참고] (https://velog.io/@do_dadu/GraphQL%EC%9D%80-%EC%99%84%EB%B2%BD%ED%95%A0%EA%B9%8C)
+[참고](https://velog.io/@do_dadu/GraphQL%EC%9D%80-%EC%99%84%EB%B2%BD%ED%95%A0%EA%B9%8C)
 
 
 
