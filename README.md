@@ -86,17 +86,21 @@ export class 모듈명 {}
 #### concept
 
 * resolver : ``` @Resolver() ``` 로 쿼리문 날릴 클래스들이 위치
+
 * ``` @Query(return => entity) ```  : 쿼리문 실행
+
 * ``` @ObjectType() ```  : DB 엔티티
+
 * ``` @ArgsType() ```  이나 ``` @InputType() ``` 으로 dto객체(?) 생성 가능
 
-graphql 요청시,
+  graphql 요청시,
 
-InputType은 args 이름으로 하나의 객체로 보내고
+  InputType은 args 이름으로 하나의 객체로 보내고
 
-ArgsType은 객체의 각 Field를 따로 보내고, 
+  ArgsType은 객체의 각 Field를 따로 보낸다.
 
 * validation 으로 dto 유효성 검사 가능
+
   class-validation, class-transformer 설치 후 main.ts에 파이프라인 추가
 
 
