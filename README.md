@@ -41,13 +41,13 @@ sql이 DB 데이터를 효과적으로 가져올 수 있다면,
 
 graphql은 클라이언트가 서버에서 데이터를 효과적으로 가져오는 것이 목적이다.  
 
-
+  
 
 클라이언트가 서버에서 데이터를 받아오는 대표적인 방식이 REST API인 만큼
 
 graphql은 REST API를 대체한다.  
 
-
+  
 
 ##### CRUD
 
@@ -57,7 +57,7 @@ Query : get
 
 Mutation : post, put, delete  
 
-
+  
 
 [참고] (https://velog.io/@do_dadu/GraphQL%EC%9D%80-%EC%99%84%EB%B2%BD%ED%95%A0%EA%B9%8C)
 
