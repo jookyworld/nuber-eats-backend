@@ -197,7 +197,8 @@ export class 모듈명 {}
 3. package.json 파일 수정
 
    ```json
-   "start:dev": "cross-env ENV=dev nest start --watch",
+   "start": "cross-env NODE_ENV=prod nest start",
+   "start:dev": "cross-env NODE_ENV=dev nest start --watch",
    ```
 
 4. app.module에 모듈 추가
@@ -205,8 +206,62 @@ export class 모듈명 {}
    ```typescript
    ConfigModule.forRoot({
          isGlobal: true,
-         envFilePath: process.env.NODE_ENV ==='dev' ? '.dev.env' : '.test.env',
+         envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
+         ignoreEnvFile: process.env.NODE_ENV === 'prod', //배포시엔 환경변수 무시
        }),
    ```
 
-5. 
+5. .env.dev 에 다음 코드 추가
+
+   ```
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=유저네임
+   DB_PASSWORD=비밀번호
+   DB_NAME=DB이름
+   ```
+
+6. app.module 수정
+
+   ```typescript
+   TypeOrmModule.forRoot({
+     type: "postgres",
+     host: process.env.DB_HOST,
+     port: +process.env.DB_PORT,
+     username: process.env.DB_USERNAME,
+     password: process.env.DB_PASSWORD,
+     database: process.env.DB_NAME,
+     synchronize: true,
+     logging: true,
+   }),
+   ```
+
+7. 환경변수 유효성 검사 joi
+
+   ```zsh
+   $ npm install joi
+   ```
+
+   app.module에 import 후 모듈 추가
+
+   ```typescript
+   import * as Joi from 'joi';
+   ```
+
+   ```typescript
+   ConfigModule.forRoot({
+         isGlobal: true,
+         envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
+         ignoreEnvFile: process.env.NODE_ENV === 'prod', //배포시엔 환경변수 무시
+         validationSchema: Joi.object({
+           NODE_ENV: Joi.string().valid('dev', 'prod').required(),
+           DB_HOST: Joi.string().required(),
+           DB_PORT: Joi.string().required(),
+           DB_USERNAME: Joi.string().required(),
+           DB_PASSWORD: Joi.string().required(),
+           DB_NAME: Joi.string().required(),
+         }),
+       }),
+   ```
+
+   
