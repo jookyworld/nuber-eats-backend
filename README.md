@@ -94,6 +94,86 @@ GUI : [postico](https://eggerapps.at/postico2/)
 
    로 연결 했을 때 에러 없으면 DB 연결 완료
 
+4. dotenv 설치
+
+```zsh
+$ npm i --save @nestjs/config
+```
+
+5. 루트 디렉토리에 .env.dev와 .env.test 파일 생성 (두 파일 모두 gitignore 추가)
+
+6. package.json 파일 수정
+
+```json
+"start": "cross-env NODE_ENV=prod nest start",
+"start:dev": "cross-env NODE_ENV=dev nest start --watch",
+```
+
+7. app.module에 모듈 추가
+
+```typescript
+ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
+      ignoreEnvFile: process.env.NODE_ENV === 'prod', //배포시엔 환경변수 무시
+    }),
+```
+
+8. .env.dev 에 다음 코드 추가
+
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=유저네임
+DB_PASSWORD=비밀번호
+DB_NAME=DB이름
+```
+
+9. app.module 수정
+
+```typescript
+TypeOrmModule.forRoot({
+  type: "postgres",
+  host: process.env.DB_HOST,
+  port: +process.env.DB_PORT,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  synchronize: true,
+  logging: true,
+}),
+```
+
+10. 환경변수 유효성 검사 joi
+
+```zsh
+$ npm install joi
+```
+
+app.module에 import 후 모듈 추가
+
+```typescript
+import * as Joi from 'joi';
+```
+
+```typescript
+ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
+      ignoreEnvFile: process.env.NODE_ENV === 'prod', //배포시엔 환경변수 무시
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string().valid('dev', 'prod').required(),
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.string().required(),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_NAME: Joi.string().required(),
+      }),
+    }),
+```
+
+
+
 
 
 
@@ -184,84 +264,84 @@ export class 모듈명 {}
 
 ## TypeORM
 
-설치 후 추가 설정
+Sequelize와 항상 언급되는 대표적인 ORM
 
-1. dotenv 설치
+#### @Entity()
 
-   ```zsh
-   $ npm i --save @nestjs/config
-   ```
+TypeORM을 쓰기 위한 매핑 객체 decorator
 
-2. 루트 디렉토리에 .env.dev와 .env.test 파일 생성 (두 파일 모두 gitignore 추가)
+#### @Column()
 
-3. package.json 파일 수정
+Java에서와 같이 각 필드를 나타냄
 
-   ```json
-   "start": "cross-env NODE_ENV=prod nest start",
-   "start:dev": "cross-env NODE_ENV=dev nest start --watch",
-   ```
+#### TypeORM 적용
 
-4. app.module에 모듈 추가
+TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
-   ```typescript
-   ConfigModule.forRoot({
-         isGlobal: true,
-         envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
-         ignoreEnvFile: process.env.NODE_ENV === 'prod', //배포시엔 환경변수 무시
-       }),
-   ```
+#### Service, Repository 등록
 
-5. .env.dev 에 다음 코드 추가
-
-   ```
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USERNAME=유저네임
-   DB_PASSWORD=비밀번호
-   DB_NAME=DB이름
-   ```
-
-6. app.module 수정
+1. 사용하려는 위치의 모듈에 entity 추가, providers 추가
 
    ```typescript
-   TypeOrmModule.forRoot({
-     type: "postgres",
-     host: process.env.DB_HOST,
-     port: +process.env.DB_PORT,
-     username: process.env.DB_USERNAME,
-     password: process.env.DB_PASSWORD,
-     database: process.env.DB_NAME,
-     synchronize: true,
-     logging: true,
-   }),
+   imports: [TypeOrmModule.forFeature([Restaurant])],
+   providers: [RestaurantResolver, RestaurantService]
    ```
 
-7. 환경변수 유효성 검사 joi
-
-   ```zsh
-   $ npm install joi
-   ```
-
-   app.module에 import 후 모듈 추가
+2. Service 생성
 
    ```typescript
-   import * as Joi from 'joi';
+   @Injectable()
+   export class RestaurantService {}
    ```
+
+3. resolver에 service 등록
 
    ```typescript
-   ConfigModule.forRoot({
-         isGlobal: true,
-         envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
-         ignoreEnvFile: process.env.NODE_ENV === 'prod', //배포시엔 환경변수 무시
-         validationSchema: Joi.object({
-           NODE_ENV: Joi.string().valid('dev', 'prod').required(),
-           DB_HOST: Joi.string().required(),
-           DB_PORT: Joi.string().required(),
-           DB_USERNAME: Joi.string().required(),
-           DB_PASSWORD: Joi.string().required(),
-           DB_NAME: Joi.string().required(),
-         }),
-       }),
+   constructor(private readonly restaurantService: RestaurantService) {}
    ```
 
-   
+4. service에 repository 등록
+
+   ```typescript
+   constructor(
+       @InjectRepository(Restaurant)
+       private readonly restaurantsRepository: Repository<Restaurant>,
+   ) {}
+   ```
+
+#### Entity와 DTO간의 필드 불일치 해결
+
+##### "OmitType" 사용으로 자동 일치(entity > dto)
+
+1. OmitType은 제외할 필드를 지정한다.
+
+2. OmitType을 상속받은 dto
+
+3. 이때 dto의 decorator는 @InputType()이어야한다.
+
+4. Entity의 decorator가 @ObjectType()로 dto와 다르다면 이를 동일하게 명시해야함
+
+   두 가지 방법이 있는데
+
+   1. dto OmitType에 인자 추가로 명시
+
+      ```typescript
+      @InputType()
+      export class CreateRestaurantDto extends OmitType(Restaurant, ['id'], InputType) {}
+      ```
+
+   2. entity에 decorator만 추가
+
+      ```typescript
+      @InputType()
+      export class CreateRestaurantDto extends OmitType(Restaurant, ['id']) {}
+      ```
+
+      ```typescript
+      @InputType({isAbstract: true})
+      @ObjectType()
+      @Entity()
+      export class Restaurant {}
+      ```
+
+      
