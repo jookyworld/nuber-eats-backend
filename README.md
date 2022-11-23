@@ -315,7 +315,7 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
 1. OmitType은 제외할 필드를 지정한다.
 
-2. OmitType을 상속받은 dto
+2. dto 클래스에 OmitType extends
 
 3. 이때 dto의 decorator는 @InputType()이어야한다.
 
