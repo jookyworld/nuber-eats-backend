@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { env } from 'process';
 import { JoinColumn } from 'typeorm';
 import { Restaurant } from './restaurants/entities/restaurant.entity';
+import { UsersModule } from './users/users.module';
 
 console.log(Joi);
 
@@ -39,9 +40,9 @@ console.log(Joi);
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== 'prod',
       logging: process.env.NODE_ENV !== 'prod',
-      entities: [Restaurant]
+      entities: []
     }),
-    RestaurantsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

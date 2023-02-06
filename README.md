@@ -347,3 +347,12 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 5. 마지막으로 Entity 클래스에서 dto를 위한 decorator를 추가한다.
 
    @IsString(), @Length(5) 등
+   
+   
+
+## User
+
+``` bash
+$ nest g mo users
+```
+
