@@ -9,6 +9,7 @@ import { env } from 'process';
 import { JoinColumn } from 'typeorm';
 import { Restaurant } from './restaurants/entities/restaurant.entity';
 import { UsersModule } from './users/users.module';
+import { CommonModule } from './common/common.module';
 
 console.log(Joi);
 
@@ -43,6 +44,7 @@ console.log(Joi);
       entities: []
     }),
     UsersModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

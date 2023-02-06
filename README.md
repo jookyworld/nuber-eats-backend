@@ -352,7 +352,15 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
 ## User
 
-``` bash
-$ nest g mo users
-```
+1. user module 설치
 
+   ``` bash
+   $ nest g mo users
+
+2. common module 설치
+
+   ``` bash
+   $ nest g mo common
+   ```
+
+   
