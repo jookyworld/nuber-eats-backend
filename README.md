@@ -356,6 +356,9 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
    ``` bash
    $ nest g mo users
+   ```
+
+   * User Entity 생성
 
 2. common module 설치
 
@@ -363,4 +366,6 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
    $ nest g mo common
    ```
 
-   
+   Core Entity 생성
+
+3. 
