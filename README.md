@@ -264,7 +264,7 @@ export class 모듈명 {}
 
 ## TypeORM
 
-Sequelize와 항상 언급되는 대표적인 ORM
+Sequelize와 항상 언급되는 대표적인 ORM(Object Relational Mapping)
 
 #### @Entity()
 
