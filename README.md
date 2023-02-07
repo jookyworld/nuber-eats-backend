@@ -366,6 +366,8 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
    $ nest g mo common
    ```
 
-   Core Entity 생성
+   * Core Entity 생성
 
-3. 
+3. users resolver, service, dto 생성
+
+4. API 생성  > createAccount() {}
