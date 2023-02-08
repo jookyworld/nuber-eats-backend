@@ -244,7 +244,7 @@ export class 모듈명 {}
 
 * ``` @Query(return => entity) ```  : 쿼리문 실행
 
-* ``` @ObjectType() ```  : DB 엔티티
+* ``` @ObjectType() ```  : 데이터 객체 단위
 
 * ``` @ArgsType() ```  이나 ``` @InputType() ``` 으로 dto객체(?) 생성 가능
 
@@ -382,3 +382,5 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
       ```
 
    2. user.entity.ts에 해싱 함수 추가
+
+6. login API 생성
