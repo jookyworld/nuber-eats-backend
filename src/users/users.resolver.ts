@@ -18,7 +18,7 @@ export class UsersResolver {
     async createAccount(@Args('input') createAccountInput: CreateAccountInput) 
     : Promise<CreateAccountOutput> {
         try {
-            const [ok, error] = await this.userService.createAccount(createAccountInput);
+            const {ok, error} = await this.userService.createAccount(createAccountInput);
             return {ok, error};
         } catch(e) {
             return{ok:false, error:e};
