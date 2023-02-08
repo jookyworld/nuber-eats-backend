@@ -371,3 +371,14 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 3. users resolver, service, dto 생성
 
 4. API 생성  > createAccount() {}
+
+5. hasing password
+
+   1. bcrypt 사용(설치 후 import)
+
+      ``` bash
+      $ npm i bcrypt
+      $ npm i @types/bcrypt --dev-only
+      ```
+
+   2. user.entity.ts에 해싱 함수 추가
