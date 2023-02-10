@@ -46,7 +46,7 @@ export class UsersService {
                 return {ok:false, error:'비밀번호가 틀렸습니다.'};
             }
 
-            const token = this.jwtService.sign({id: user.id});
+            const token = this.jwtService.sign(user.id);
             return {ok:true, token};    // 3.토큰 반환
         } catch(e) {
             return {ok:false, error:e};
