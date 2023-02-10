@@ -8,7 +8,7 @@ import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
 import { JwtModule } from './jwt/jwt.module';
-import { jwtMiddleware } from './jwt/jwt.middleware';
+import { JwtMiddleware } from './jwt/jwt.middleware';
 
 console.log(Joi);
 
@@ -53,4 +53,13 @@ console.log(Joi);
   providers: [],
 })
 
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(JwtMiddleware)         //JwtMiddleware를 
+    .forRoutes({ 
+      path:"/graphql",            //경로에
+      method: RequestMethod.ALL,  //인 경우에 적용
+    })
+  }
+}

@@ -447,5 +447,11 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
 2. JwtModule을 golbalModule로 변경 후 별도 module로 관리
 
-3. 
+
+
+#### Token 검증
+
+1. 사용자에게 받은 http header에서 token이 있나 확인하고
+2. token이 올바른지 확인 후 해독한다.
+3. token 생성시 넣어뒀던 userId로 user를 찾는다.
 

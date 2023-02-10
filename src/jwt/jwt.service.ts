@@ -11,8 +11,14 @@ export class JwtService {
 
     }
 
+    //token 생성
     sign(userId: number): string{
         return jwt.sign({id: userId}, this.options.privateKey);
+    }
+
+    //token 검증
+    verify(token:string) {
+        return jwt.verify(token, this.options.privateKey);
     }
 
 }
