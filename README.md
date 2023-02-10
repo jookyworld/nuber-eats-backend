@@ -445,5 +445,7 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
    $ nest g s jwt
    ```
 
-   
+2. JwtModule을 golbalModule로 변경 후 별도 module로 관리
+
+3. 
 
