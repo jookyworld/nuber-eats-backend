@@ -46,7 +46,7 @@ console.log(Joi);
     }),
     UsersModule,
     CommonModule,
-    JwtModule.forRoot({
+    JwtModule.forRoot({   //global module
       privateKey: process.env.PRIVATE_KEY,
     }),
   ],
