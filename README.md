@@ -1,4 +1,4 @@
-# Nuber Eats
+Nuber Eats
 
 The Backend of Nuber Eats Clone
 
@@ -403,7 +403,7 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
      따라서 중요한 정보는 절대 포함하지 않는다.
 
-     서버는 token의 수정 여부를 확인하기 위해 privateKey로 선언.
+     서버는 token의 수정 여부를 확인하기 위한 목적으로 privateKey 선언.
 
    ``` typescript
    ConfigModule.forRoot({
@@ -413,6 +413,36 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
    		SECRET_KEY: Joi.string().required()	//SECRET_KEY는 별도 파일 저장(.env.dev)
    	}),
    }),
+   ```
+
+3. ConfigService 의존성 주입
+
+   ConfigService로 위에서 생성한 SECRET_KEY를 불러와 토큰을 생성할 수 있다.
+
+   ``` typescript
+   constructor(
+   	@InjectRepository(User)
+   	private readonly usersRepository: Repository<User>,
+   	private readonly config: ConfigService,	//ConfigService 의존성 주입
+   ) {}
+   ```
+
+4. 토큰 생성
+
+   ``` typescript
+   const token = jwt.sign({id: user.id}, this.config.get('SECRET_KEY'));
+   ```
+
+
+
+<hr>
+
+1. ``` bash
+   $ nest g mo jwt
+   ```
+
+   ``` bash
+   $ nest g s jwt
    ```
 
    

@@ -6,15 +6,16 @@ import { CreateAccountInput } from "./dtos/create-account.dto";
 import { LoginInput } from "./dtos/login.dto";
 import { User } from "./entities/user.entity";
 import { ConfigService } from "@nestjs/config";
+import { JwtService } from "src/jwt/jwt.service";
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
-        private readonly config: ConfigService,
+        private readonly jwtService: JwtService,
     ) {
-        console.log(this.config.get('SECRET_KEY'));
+        
     }
 
     //계정 생성에 실패하면 return String, 성공하면 return x
@@ -39,14 +40,14 @@ export class UsersService {
             if(!user) {
                 return {ok:false, error:'존재하지 않는 계정입니다.'};
             }
+
             const passwordCorrect = await user.checkPassword(password); // 2.비밀번호 확인
             if(!passwordCorrect) {
                 return {ok:false, error:'비밀번호가 틀렸습니다.'};
             }
 
-            const token = jwt.sign({id: user.id}, this.config.get('SECRETE_KEY'));
-
-            return {ok:true, token:'adfafasdfsadf'};    // 3.토큰 반환
+            const token = this.jwtService.sign({id: user.id});
+            return {ok:true, token};    // 3.토큰 반환
         } catch(e) {
             return {ok:false, error:e};
         }
