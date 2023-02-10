@@ -1,16 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import * as jwt from "jsonwebtoken";
 import { CreateAccountInput } from "./dtos/create-account.dto";
 import { LoginInput } from "./dtos/login.dto";
 import { User } from "./entities/user.entity";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
-    ) {}
+        private readonly config: ConfigService,
+    ) {
+        console.log(this.config.get('SECRET_KEY'));
+    }
 
     //계정 생성에 실패하면 return String, 성공하면 return x
     async createAccount({email, password, role}: CreateAccountInput) 
@@ -38,6 +43,9 @@ export class UsersService {
             if(!passwordCorrect) {
                 return {ok:false, error:'비밀번호가 틀렸습니다.'};
             }
+
+            const token = jwt.sign({id: user.id}, this.config.get('SECRETE_KEY'));
+
             return {ok:true, token:'adfafasdfsadf'};    // 3.토큰 반환
         } catch(e) {
             return {ok:false, error:e};

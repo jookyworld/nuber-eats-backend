@@ -384,3 +384,36 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
    2. user.entity.ts에 해싱 함수 추가
 
 6. login API 생성
+
+### JWT
+
+1. jsonwebtoken 설치
+
+   ``` bash
+   $ npm i jsonwebtoken
+   ```
+
+   ``` bash
+   $ npm i @types/jsonwebtoken --only-dev
+   ```
+
+2. token 지정을 위한 privateKey 선언 ([256-bit중 선택](https://randomkeygen.com/))
+
+   * 사용자는 얼마든지 token 정보를 알 수 있다.
+
+     따라서 중요한 정보는 절대 포함하지 않는다.
+
+     서버는 token의 수정 여부를 확인하기 위해 privateKey로 선언.
+
+   ``` typescript
+   ConfigModule.forRoot({
+     ...
+     validationSchema: Joi.object({
+       ...
+   		SECRET_KEY: Joi.string().required()	//SECRET_KEY는 별도 파일 저장(.env.dev)
+   	}),
+   }),
+   ```
+
+   
+
