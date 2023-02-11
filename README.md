@@ -454,4 +454,5 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 1. 사용자에게 받은 http header에서 token이 있나 확인하고
 2. token이 올바른지 확인 후 해독한다.
 3. token 생성시 넣어뒀던 userId로 user를 찾는다.
+4. 
 
