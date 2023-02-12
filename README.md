@@ -449,12 +449,20 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 
 
 
-#### Token 검증
+#### Token 검증 ([middleware](https://www.wisewiredbooks.com/nestjs/overview/06-middleware.html))
 
 1. 사용자에게 받은 http header에서 token이 있나 확인하고
 2. token이 올바른지 확인 후 해독한다.
 3. token 생성시 넣어뒀던 userId로 user를 찾는다.
-4. 
+4. 찾은 user를 request object에 추가한다.
+
+middleware - apollo server (context) - authorization guard - resolver -
+
+custom decorator (context -> graphql context)
+
+##### guard
+
+request 진행을 결정하는 함수
 
 ``` bash
 $ nest g mo auth
