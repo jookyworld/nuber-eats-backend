@@ -7,6 +7,8 @@ import { LoginInput } from "./dtos/login.dto";
 import { User } from "./entities/user.entity";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "src/jwt/jwt.service";
+import { EditProfileInput } from "./dtos/edit-profile.dto";
+import { pseudoRandomBytes } from "crypto";
 
 @Injectable()
 export class UsersService {
@@ -55,6 +57,17 @@ export class UsersService {
 
     async findById(id:number): Promise<User> {
         return this.usersRepository.findOneBy({id});
+    }
+
+    async editProfile(id: number, {email, password}: EditProfileInput): Promise<User> {
+        const user = await this.usersRepository.findOneBy({id});
+        if(email){
+            user.email = email;
+        }
+        if(password){
+            user.password = password;
+        }
+        return this.usersRepository.save(user);
     }
 
 }
