@@ -456,3 +456,7 @@ TypeOrmModule에 ``` entities: [모듈명]``` 추가
 3. token 생성시 넣어뒀던 userId로 user를 찾는다.
 4. 
 
+``` bash
+$ nest g mo auth
+```
+
