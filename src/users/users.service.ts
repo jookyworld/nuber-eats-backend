@@ -1,20 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import * as jwt from "jsonwebtoken";
 import { CreateAccountInput } from "./dtos/create-account.dto";
 import { LoginInput } from "./dtos/login.dto";
 import { User } from "./entities/user.entity";
-import { ConfigService } from "@nestjs/config";
 import { JwtService } from "src/jwt/jwt.service";
 import { EditProfileInput } from "./dtos/edit-profile.dto";
-import { pseudoRandomBytes } from "crypto";
+import { Verification } from "./entities/verification.entity";
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
+
+        @InjectRepository(Verification)
+        private readonly verifications: Repository<Verification>,
+
         private readonly jwtService: JwtService,
     ) {
         
@@ -28,7 +30,10 @@ export class UsersService {
             if(exists) {
                 return {ok:false, error:'이미 존재하는 계정입니다.'};
             }
-            await this.usersRepository.save(this.usersRepository.create({email, password, role}));  // 2.계정 생성
+            const user = await this.usersRepository.save(this.usersRepository.create({email, password, role}));  // 2.계정 생성
+            await this.verifications.save(this.verifications.create({
+                user,
+            }));
             return {ok:true};
         } catch(e) {
             return {ok:false,error:'계정을 생성하지 못했습니다.'};
