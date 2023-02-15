@@ -2,6 +2,7 @@ import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import { CoreEntity } from "src/common/entities/core.entity";
 import { BeforeInsert, Column, Entity, JoinColumn, OneToOne } from "typeorm";
 import { User } from "./user.entity";
+import { v4 as uuidv4} from "uuid";
 
 @InputType({isAbstract: true})
 @ObjectType()
@@ -18,7 +19,7 @@ export class Verification extends CoreEntity {
 
     @BeforeInsert()
     createCode(): void {
-        this.code = "random code"
+        this.code = uuidv4();
     }
 
 }
